@@ -23,7 +23,7 @@
     <body>
 
 
-        <div class="fluig-style-guide" style="width: 98%;">
+        <div id="div_master" class="fluig-style-guide" style="width: 98%;">
 
             <form name="form" role="form">
 
@@ -57,7 +57,7 @@
                                 <!-- 1° Input -->
                                 <div class="form-group col-md-3">
                                     <label for="group_solic">Grupo</label>
-                                    <input type="text" id="group_solic" name="group_solic" class="form-control form-control-sm mInt" readonly>
+                                    <select type="text" id="group_solic" name="group_solic" class="form-control form-control-sm mInt"></select>
                                 </div>
 
                                 <!-- 2° Input -->
@@ -102,7 +102,7 @@
                                     <div class="col-md-5">
                                         
                                         
-                                        <button type="button" class="btn btn-success btn-lg btn-block" style="color: white; margin-top: 50%;" id="button" onclick="register()">Adicionar</button>
+                                        <button id="add_tb" name="add_tb" type="button" class="btn btn-success btn-lg btn-block" style="color: white; margin-top: 50%;" id="button" onclick="register()">Adicionar</button>
                                     
 
                                         <div class="form-text">Clique para adicionar uma nova solicitação, você pode remover no botão vermelho a esquerda caso queira.</div>
@@ -164,12 +164,15 @@
                                                             <input name="tb_status" type="text" class="form-control status-andam" id="tb_status" value="" readonly>
                                                         </div>
 
+                                                        <br>
+                                                        <div id="exrow">
+                                                            <button id="button_ex" name="button_ex" type="button" class="btn btn-danger excluir" style="border-radius: 40px; color: white; width: 9%;"><i class="fluigicon fluigicon-remove-sign icon-sm"></i></button>
+                                                        </div>
+                                                        <br>
+                                                        <br>
+
                                                     </div>
 
-                                                </td>
-
-                                                <td>
-                                                    <button type="button" class="btn btn-danger excluir" style="border-radius: 40px; color: white;"><i class="fluigicon fluigicon-remove-sign icon-sm"></i></button>
                                                 </td>
 
                                             </tr>
@@ -199,19 +202,13 @@
                                 <!-- 5° Input -->
                                 <div class="form-group col-md-3">
                                     <label for="resp">Responsável</label>                                        
-                                    <input type="text" name="resp" id="resp" class="form-control" value="Emanuel Ferreira" readonly>
+                                    <input type="text" name="resp" id="resp" class="form-control" readonly>
                                 </div>
 
                                 <!-- 6° Input -->
                                 <div class="form-group col-md-3">
                                     <label for="date_closure">Data de Encerramento</label>                                        
                                     <input type="date" name="date_closure" id="date_closure" class="form-control">
-                                </div>
-
-                                <!-- 7° Input -->
-                                <div class="form-group col-md-3">
-                                    <label for="follow_up">Follow up - Eficácia</label>                                        
-                                    <input type="text" name="follow_up" id="follow_up" class="form-control" value="" readonly>
                                 </div>
 
                                 <div class="clearfix"></div>
@@ -271,9 +268,31 @@
                             </div>
 
                         </div>
-                    </div>
 
-                    <button id="testEvent" class="btn btn-success" onclick="eventTest();">TESTE EVENTO</button>
+                        <!-- 5° Painel -->
+                        <div id="panel5" class="panel panel-info panel-d1">
+                            <div class="panel-heading panel-d2">
+                                <h3 class="panel-title">Follow-up</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <!-- 7° Input -->
+                                <div class="form-group col-md-5" style="margin-top: 8%;">
+                                    <label for="follow_up">Follow up - Eficácia</label>                                        
+                                    <select type="text" name="follow_up" id="follow_up" class="form-control">
+                                        <option value="">Selecione...</option>
+                                        <option value="Aprovado">Aprovado</option>
+                                        <option value="Não Conforme">Não Conforme</option>
+                                    </select>
+                                    <div class="form-text">Realizar ações logo após uma reunião ou apresentação de proposta, com o objetivo de fazer com que o lead avance no processo</div>
+                                </div>
+
+                                <img style="float: right; width: 260px; margin-right: 12%;" src="images/follow-up.png">
+                            
+                            </div>
+                        </div>
+
+                    </div>                    
 
                 </div>
 

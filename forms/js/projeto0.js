@@ -1,21 +1,48 @@
 
+//EXECUÇÃO DE CÓDIGO COM O DOCUMENTO
+ window.onload = function() {
+
+    navegation();
+    getGroup();
+    temaGenerico();
+    getUser();
+
+
+ }
+
 // ADICIONAR TEMA GENERICO
 var outros = "Outros"
 var valid;
 
-document.getElementById("tema").onchange = function() {
+function temaGenerico() {
 
-    var tema = $("#tema").val();
+    document.getElementById("tema").onchange = function() {
 
-    if (tema == outros) {
+        var tema = $("#tema").val();
+
+        if (tema == outros) {
+            $("#outros_div").removeClass("nav-close");
+            valid++;
+        }
+
+        if (valid > 0 || tema != outros) {
+            $("#outros_div").addClass("nav-close");
+        }
+        
+
+    };
+
+};
+
+function temaGenerico2() {
+
+    var textSelect = $("#tema").val();
+
+    if (textSelect == "Outros") {
+
         $("#outros_div").removeClass("nav-close");
-        valid++;
     }
 
-    if (valid > 0 || tema != outros) {
-        $("#outros_div").addClass("nav-close");
-    }
-    
 
 };
 
@@ -100,14 +127,25 @@ function tabela() {
 
         var valueTable = tableInput[number +4].value; //data de encerramento
 
-        var diaSE = valueTable.substring(8, 12);
-        var mesSE = valueTable.substring(5, 7);
-        var anoSE = valueTable.substring(0, 4);
+        if (valueTable == "") {
 
-        var date_convert = diaSE + "/" + mesSE + "/" + anoSE;
+            var date_convert = "";
+
+        }
+
+        else {
+
+            var diaSE = valueTable.substring(8, 12);
+            var mesSE = valueTable.substring(5, 7);
+            var anoSE = valueTable.substring(0, 4);
+
+            var date_convert = diaSE + "/" + mesSE + "/" + anoSE;
+        
+        }
 
         $("#tb_closure___" + i).val(date_convert);
 
+        
     }
 
 
@@ -115,11 +153,12 @@ function tabela() {
 
 
 // APLICAÇÃO DE STATUS - A PARTIR DO ENCERRAMENTO, PRAZO E O DIA ATUAL
-
-
 function status_PE() {
 
-    for (var i = 1; i <= clickSave; i++) {
+    var tableRowCount = $('#tb_addR tr').length;
+    var rowCount = tableRowCount - 2;
+
+    for (var i = 1; i <= rowCount; i++) {
 
         //hoje
         var date = new Date();
@@ -226,15 +265,172 @@ function atualizar() {
 
 }
 
-function eventTest() {
 
-    console.log(getFormMode());
-    console.log(getMobile());
-    console.log("----------------");
-    console.log(getWKNumState());
-    console.log(getWKUser());
-    console.log(getWKNumProces());
-    console.log(getWKUserLocale());
-    console.log(getWKCardId());
+//NAVEGAÇÃO ENTRE FASES DO FLUXO DE PROCESSOS
+function navegation() {
 
-}
+    var get_form = getFormMode();
+    var get_mobile = getMobile();
+    var get_atividade = getWKNumState();
+    var get_usuario = getWKUser();
+    var get_processo = getWKNumProces();
+    var get_locale = getWKUserLocale();
+    var get_cardid = getWKCardId();
+
+    status_PE();
+
+    var input_follow = document.getElementById("follow_up");
+
+    //Atividade 1 (inicial)
+    if (get_atividade == 0) {
+
+        $("#panel3").addClass("nav-close");
+        $("#panel4").addClass("nav-close");
+        //$("#panel5").addClass("nav-close");
+
+        $('#follow_up').prop('readonly', true);
+
+    }
+
+    //Atividade 2 (Coordenador)
+    if (get_atividade == 2) {
+
+        var rowCount = 0;    
+
+        var tableRowCount = $('#tb_addR tr').length;
+        rowCount = tableRowCount - 2;
+
+        
+
+        for (var i = 1; i <= rowCount; i++) {
+
+            $('#tb_descricao___' + i).prop('readonly', true);
+            $('#tb_prazo___' + i).prop('readonly', true);
+
+            button_ex[i].disabled = true;
+            
+
+        }
+
+        $('#group_solic').attr("disabled", true); 
+        $('#tema').attr("disabled", true); 
+
+        $("#outros").prop('readonly', true);
+        $('#follow_up').prop('readonly', true);
+        $('#add_tb').prop('disabled', true);
+        $("#panel5").addClass("nav-close");
+
+        
+
+        temaGenerico2();
+
+       
+    }
+
+    //Atividade 3 (Follow-up)
+    if (get_atividade == 3) {
+
+        $('#group_solic').attr("disabled", true); 
+        $('#tema').attr("disabled", true); 
+
+        $('#desc_action').prop('readonly', true);
+        $('#date_closure').prop('readonly', true);
+        $('#add_tb').prop('disabled', true);
+        
+        
+
+        var tableRowCount = $('#tb_addR tr').length;
+        var rowCount = tableRowCount - 2;
+
+        for (var i = 1; i <= rowCount; i++) {
+
+            $('#tb_descricao___' + i).prop('readonly', true);
+            $('#tb_prazo___' + i).prop('readonly', true);
+            $('#tb_date_enc___' + i).prop('readonly', true);
+            button_ex[i].disabled = true;
+
+        }
+
+    }
+
+    
+
+
+
+}; 
+
+// GRUPO E USUÁRIO CORRESPONDENTES
+
+function getGroup() {
+
+    //Condição de Busca
+    var user = getWKUser();
+
+    //Filtro de Busca 
+    var userConstraint = DatasetFactory.createConstraint("colleagueGroupPK.colleagueId", user, user, ConstraintType.MUST);
+   
+    var arrayConstraint = new Array(userConstraint);
+
+    // Busca no Dataset + Condições de Filtro
+    var array = DatasetFactory.getDataset("colleagueGroup", null, arrayConstraint, null);
+
+    var valuesCount = array.values.length;
+
+    if (valuesCount > 1) {
+
+        for (var i = 0; i < valuesCount; i++) {    
+
+            $('#group_solic').append($('<option>', {
+
+                value: array.values[i]["colleagueGroupPK.groupId"],
+                text: array.values[i]["colleagueGroupPK.groupId"]
+
+            }));
+
+        }   
+    }
+    else {
+
+        for (var i = 0; i < valuesCount; i++) {    
+
+            $('#group_solic').append($('<option>', {
+
+                value: array.values[i]["colleagueGroupPK.groupId"],
+                text: array.values[i]["colleagueGroupPK.groupId"]
+
+            }));
+        }
+
+        $('#group_solic').attr("disabled", true);
+
+    }
+};
+
+function getUser() {
+ 
+    //Condição de Busca
+    var user = getWKUser();
+
+    //Filtro de Busca 
+    var userConstraint = DatasetFactory.createConstraint("colleaguePK.colleagueId", user, user, ConstraintType.MUST);
+
+    var arrayConstraint = new Array(userConstraint);
+
+    // Busca no Dataset + Condições de Filtro
+    var array = DatasetFactory.getDataset("colleague", null, arrayConstraint, null);
+
+    var responsavel = array.values[0].colleagueName
+
+    $("#resp").val(responsavel);
+
+    console.log("-------------");
+    console.log(user);
+    console.log(responsavel);
+    console.log(array);
+    
+
+};
+
+
+
+
