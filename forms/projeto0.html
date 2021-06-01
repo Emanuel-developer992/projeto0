@@ -55,13 +55,13 @@
                             <div class="panel-body">
                                 
                                 <!-- 1° Input -->
-                                <div class="form-group col-md-3">
+                                <div id="group_div" class="form-group col-md-4">
                                     <label for="group_solic">Grupo</label>
                                     <select type="text" id="group_solic" name="group_solic" class="form-control form-control-sm mInt"></select>
                                 </div>
 
                                 <!-- 2° Input -->
-                                <div class="form-group col-md-3">
+                                <div id="tema_div" class="form-group col-md-4">
                                     <label for="tema">Tema</label>
                                     <select type="text" id="tema" name="tema" class="form-control form-control-sm mInt">
                                         <option value="">Selecione...</option>
@@ -80,9 +80,27 @@
                                 </div>
 
                                 <!-- 3° Input -->
-                                <div id="outros_div" class="form-group col-md-3 nav-close">
-                                    <label for="outros">Outros</label>
+                                <div id="outros_div" class="form-group col-md-4 nav-close">
+                                    <label for="outros">Outros Tema</label>
                                     <input type="text" id="outros" name="outros" class="form-control form-control-sm mInt">
+                                </div>
+
+                                <!-- 1° sombra -->
+                                <div id="group_div_s" class="form-group col-md-4 nav-close">
+                                    <label for="group_s">Grupo</label>
+                                    <input type="text" id="group_s" name="group_s" class="form-control form-control-sm mInt" readonly>
+                                </div>
+
+                                <!-- 2° sombra -->
+                                <div id="tema_div_s" class="form-group col-md-4 nav-close">
+                                    <label for="tema_s">Tema</label>
+                                    <input type="text" id="tema_s" name="tema_s" class="form-control form-control-sm mInt" readonly>
+                                </div>
+
+                                <!-- 3° sombra -->
+                                <div id="outros_div_s" class="form-group col-md-4 nav-close">
+                                    <label for="outros_s">Outros tema</label>
+                                    <input type="text" id="outros_s" name="outros_s" class="form-control form-control-sm mInt" readonly>
                                 </div>
 
                             </div>

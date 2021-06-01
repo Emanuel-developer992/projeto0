@@ -6,31 +6,27 @@
     getGroup();
     temaGenerico();
     getUser();
+    followClass();
 
 
  }
 
 // ADICIONAR TEMA GENERICO
-var outros = "Outros"
 var valid;
 
 function temaGenerico() {
 
-    document.getElementById("tema").onchange = function() {
+    var tema = $("#tema").val();
 
-        var tema = $("#tema").val();
+    if (tema == "Outros") {
+        $("#outros_div").removeClass("nav-close");
+        valid++;
+    }
 
-        if (tema == outros) {
-            $("#outros_div").removeClass("nav-close");
-            valid++;
-        }
-
-        if (valid > 0 || tema != outros) {
-            $("#outros_div").addClass("nav-close");
-        }
+    if (valid > 0 || tema != "Outros") {
+        $("#outros_div").addClass("nav-close");
+    }
         
-
-    };
 
 };
 
@@ -286,9 +282,13 @@ function navegation() {
 
         $("#panel3").addClass("nav-close");
         $("#panel4").addClass("nav-close");
-        //$("#panel5").addClass("nav-close");
+        $("#panel5").addClass("nav-close");
 
         $('#follow_up').prop('readonly', true);
+
+        sombraGroup();
+        sombraTema();
+        sombraOutro();
 
     }
 
@@ -336,8 +336,22 @@ function navegation() {
         $('#desc_action').prop('readonly', true);
         $('#date_closure').prop('readonly', true);
         $('#add_tb').prop('disabled', true);
+
+        $("#group_div").addClass('nav-close');
+        $("#tema_div").addClass('nav-close');
+        $("#outro_div").addClass('nav-close');
         
-        
+        $("#group_div_s").removeClass('nav-close');
+        $("#tema_div_s").removeClass('nav-close');
+
+        var valid_outros = $("#tema_s").val();
+       
+
+        if (valid_outros == "Outros") {
+
+            $("#outros_div_s").removeClass('nav-close');
+            
+        }         
 
         var tableRowCount = $('#tb_addR tr').length;
         var rowCount = tableRowCount - 2;
@@ -377,6 +391,13 @@ function getGroup() {
     var valuesCount = array.values.length;
 
     if (valuesCount > 1) {
+
+        $('#group_solic').append($('<option>', {
+
+            value: "",
+            text: "Selecione..."
+
+        }));
 
         for (var i = 0; i < valuesCount; i++) {    
 
@@ -423,14 +444,119 @@ function getUser() {
 
     $("#resp").val(responsavel);
 
-    console.log("-------------");
-    console.log(user);
-    console.log(responsavel);
-    console.log(array);
+    
     
 
 };
 
+//Follow-up classe
+
+function followClass() {
+
+    var valueLoad = $("#follow_up").val();
+
+    if (valueLoad == "") {
+
+        $("#follow_up").removeClass();
+        $("#follow_up").addClass("form-control status-andam");
+
+    }
+
+    if (valueLoad == "Aprovado") {
+
+        $("#follow_up").removeClass();
+        $("#follow_up").addClass("form-control status-enc");
+    }
+
+    if (valueLoad == "Não Conforme") {
+
+        $("#follow_up").removeClass();
+        $("#follow_up").addClass("form-control status-enc-for");
+    }
+
+    document.getElementById("follow_up").onchange = function() {
+
+        var valueFollow = $("#follow_up").val();
+
+        if (valueFollow == "") {
+
+            $("#follow_up").removeClass();
+            $("#follow_up").addClass("form-control status-andam");
+
+        }
+
+        if (valueFollow == "Aprovado") {
+
+            $("#follow_up").removeClass();
+            $("#follow_up").addClass("form-control status-enc");
+        }
+
+        if (valueFollow == "Não Conforme") {
+
+            $("#follow_up").removeClass();
+            $("#follow_up").addClass("form-control status-enc-for");
+        }
+
+    };
+    
+}
+
+function sombraGroup() {
+
+    document.getElementById("group_solic").onchange = function() {
+
+        var group = $("#group_solic").val();
+        var tema = $("#tema").val();
+        var outros = $("#outros").val();
+
+        $("#group_s").val(group);
+        $("#tema_s").val(tema);
+        $("#outros_s").val(outros);
+
+    }
+
+}
+
+function sombraTema() {
+
+    document.getElementById("tema").onchange = function() {
+
+        var group = $("#group_solic").val();
+        var tema = $("#tema").val();
+        var outros = $("#outros").val();
+
+        $("#group_s").val(group);
+        $("#tema_s").val(tema);
+        $("#outros_s").val(outros);
+
+        if (tema == "Outros") {
+            $("#outros_div").removeClass("nav-close");
+            valid++;
+        }
+
+        if (valid > 0 || tema != "Outros") {
+            $("#outros_div").addClass("nav-close");
+        }
 
 
+    }
+
+}
+
+function sombraOutro() {
+
+    document.getElementById("outros").onchange = function() {
+
+        var group = $("#group_solic").val();
+        var tema = $("#tema").val();
+        var outros = $("#outros").val();
+
+        $("#group_s").val(group);
+        $("#tema_s").val(tema);
+        $("#outros_s").val(outros);
+
+
+    }
+
+}
 
