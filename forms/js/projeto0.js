@@ -6,7 +6,8 @@
     getGroup();
     temaGenerico();
     getUser();
-    followClass();
+    followClass();   
+    console.log(getWKNumState());
 
 
  }
@@ -53,6 +54,7 @@ function register() {
 
     var em_and = "Em Andamento";
     $("#tb_status___" + clickRes).val(em_and);
+    $("#div_justificativa___" + clickRes).addClass('nav-close');
 
     $(".excluir").bind("click", Excluir);
 
@@ -251,6 +253,7 @@ function controle() {
 
     tabela();
     status_PE();
+    justifies();
 
 }
 
@@ -258,6 +261,7 @@ function atualizar() {
 
     tabela();
     status_PE();
+    justifies();
 
 }
 
@@ -293,7 +297,8 @@ function navegation() {
     }
 
     //Atividade 2 (Coordenador)
-    if (get_atividade == 2) {
+    if (get_atividade == 2 || get_atividade == 11 || get_atividade == 12) {
+
 
         var rowCount = 0;    
 
@@ -307,7 +312,6 @@ function navegation() {
             $('#tb_descricao___' + i).prop('readonly', true);
             $('#tb_prazo___' + i).prop('readonly', true);
 
-            button_ex[i].disabled = true;
             
 
         }
@@ -323,7 +327,7 @@ function navegation() {
         
 
         temaGenerico2();
-
+        justifies();
        
     }
 
@@ -340,6 +344,7 @@ function navegation() {
         $("#group_div").addClass('nav-close');
         $("#tema_div").addClass('nav-close');
         $("#outro_div").addClass('nav-close');
+        $("#panel3").addClass('nav-close');
         
         $("#group_div_s").removeClass('nav-close');
         $("#tema_div_s").removeClass('nav-close');
@@ -361,9 +366,11 @@ function navegation() {
             $('#tb_descricao___' + i).prop('readonly', true);
             $('#tb_prazo___' + i).prop('readonly', true);
             $('#tb_date_enc___' + i).prop('readonly', true);
-            button_ex[i].disabled = true;
+            
 
         }
+
+        justifiesIII();
 
     }
 
@@ -499,7 +506,7 @@ function followClass() {
 
     };
     
-}
+};
 
 function sombraGroup() {
 
@@ -515,7 +522,7 @@ function sombraGroup() {
 
     }
 
-}
+};
 
 function sombraTema() {
 
@@ -541,7 +548,7 @@ function sombraTema() {
 
     }
 
-}
+};
 
 function sombraOutro() {
 
@@ -558,5 +565,45 @@ function sombraOutro() {
 
     }
 
-}
+};
 
+//JUSTIFICATIVA DE FORA DO PRAZO
+function justifies() {
+
+    var rowCount = $('#tb_addR tr').length;
+
+    for (var i = 1; i <= rowCount - 1; i++) {
+
+        var status = $("#tb_status___" + i).val();
+
+        if (status == "Encerrado Fora do Prazo") {
+
+            div_justificativa[i].className = "";
+            window.location.hash = "#tb_descricao___" + i;
+        }
+
+        else {
+
+            div_justificativa[i].className = "nav-close";
+
+        }
+
+    }
+};
+
+function justifiesIII() {
+
+    var rowCount = $('#tb_addR tr').length;
+
+    for (var i = 1; i <= rowCount - 1; i++) {
+
+        var status = $("#tb_status___" + i).val();
+
+        if (status == "Encerrado Fora do Prazo") {
+
+            div_justificativa[i].className = "";
+            window.location.hash = "#tb_descricao___" + i;
+        }
+
+    }
+};
